@@ -42,6 +42,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>NSIA beta</title>
+</svelte:head>
+
 <!-- Hero Section -->
 <section>
   <div class="row align-items-center g-lg-5 py-5">
