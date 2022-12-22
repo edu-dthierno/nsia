@@ -6,6 +6,11 @@
   import { userConnected, userCred } from "$lib/stores";
   import { goto } from "$app/navigation";
 
+  import { inject } from '@vercel/analytics';
+
+  inject();
+
+
   // authentication variables
   let email;
   let password;
