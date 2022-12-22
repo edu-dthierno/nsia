@@ -25,7 +25,7 @@
     });
     
     // Open AI configuration
-    const configuration = new Configuration({apiKey: api});
+    const configuration = new Configuration({organization: "org-Hpt3H8lGDxocIHdHpzAQec6X",apiKey: "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"});
     const openai = new OpenAIApi(configuration);
 
     // Svelte variables
