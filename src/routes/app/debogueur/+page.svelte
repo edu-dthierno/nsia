@@ -36,7 +36,7 @@ function getc(code) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + String("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")
+          'Authorization': 'Bearer ' + String("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")
         },
         body: JSON.stringify({
           // Set the prompt for the OpenAI API to include the code and ask for corrections and explanations
