@@ -1,11 +1,11 @@
+import { PUBLIC_FIREBASE_API_KEY, PUBLIC_AUTH_DOMAIN, PUBLIC_PROJECT_ID, PUBLIC_STRORAGE_BUCKET, PUBLIC_MESSAGING_SENDER_ID, PUBLIC_APP_ID } from '$env/static/public'
+
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-    apiKey: "AIzaSyCKPm6tcAMO60bIzsoP5GivA831OW5kdJE",
-    authDomain: "nsia-389a7.firebaseapp.com",
-    projectId: "nsia-389a7",
-    storageBucket: "nsia-389a7.appspot.com",
-    messagingSenderId: "657542970344",
-    appId: "1:657542970344:web:5cfbf99f619472f4f3c25d",
-  };
-// OpenAI Api
-export const api ='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'
+  apiKey: PUBLIC_FIREBASE_API_KEY,
+  authDomain: PUBLIC_AUTH_DOMAIN,
+  projectId: PUBLIC_PROJECT_ID,
+  storageBucket: PUBLIC_STRORAGE_BUCKET,
+  messagingSenderId: PUBLIC_MESSAGING_SENDER_ID,
+  appId: PUBLIC_APP_ID,
+};

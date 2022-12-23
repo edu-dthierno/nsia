@@ -1,9 +1,12 @@
 <script>
+/** @type {import('./$types').PageData} */
 import { goto } from '$app/navigation';
 import { onMount } from "svelte";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "$lib/firebase";
 import { displayAlert, messageAlert } from "$lib/stores";
+
+export let data;
 
 // When the component is mounted, check the authentication state of the user
 onMount(() => {
@@ -36,7 +39,7 @@ function getc(code) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + String("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")
+          'Authorization': 'Bearer ' + String(data.api.openai)
         },
         body: JSON.stringify({
           'prompt': "You are an very intelligent ai capable of answering any question regarding python code only. If the question specified by the human is not related to python or coding in general, do not answer.Human:" + code + "\nAI: ",
