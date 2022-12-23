@@ -1,48 +1,63 @@
 <script>
-    import { Configuration, OpenAIApi } from "openai";
+import { goto } from '$app/navigation';
+import { onMount } from "svelte";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "$lib/firebase";
+import { displayAlert, messageAlert } from "$lib/stores";
 
-    import { goto } from '$app/navigation';
-    import { onMount } from "svelte";
-    import { onAuthStateChanged } from "firebase/auth";
-    import { auth } from "$lib/firebase";
-    import { displayAlert, messageAlert } from "$lib/stores";
-
-    onMount(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("Access Granted...");
-                let emailVerified = user.emailVerified;
-                console.log(emailVerified);
-            } else {
-                displayAlert.set(true);
-                messageAlert.set("Vous devez vous connecter au préalable afin d'accéder à l'application.")
-                console.log("Access Denied...");
-                goto("/");
-            }
-        });
+// When the component is mounted, check the authentication state of the user
+onMount(() => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("Access Granted...");
+            let emailVerified = user.emailVerified;
+            console.log(emailVerified);
+        } else {
+            // If the user is not authenticated, show an alert and redirect to the home page
+            displayAlert.set(true);
+            messageAlert.set("Vous devez vous connecter au préalable afin d'accéder à l'application.")
+            console.log("Access Denied...");
+            goto("/");
+        }
     });
-    
-    // Open AI configuration
-    const configuration = new Configuration({apiKey: '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'});
-    const openai = new OpenAIApi(configuration);
+});
 
-    // Svelte variables
-    let code;
-    let status = true;
-    let response;
+// Svelte variables
+let code;
+let status = true;
+let answer;
+let spinner;
 
-    async function getc(code) {
-        const completion = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: "You are an very intelligent ai capable of answering any question regarding python code only. If the question specified by the human is not related to python or coding in general, do not answer.Human:" + code + "\nAI: ",
-            temperature: 0,
-            max_tokens: 2048,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-        }); 
-        response = completion.data.choices[0].text
-    }
+// Function to send a code question to the OpenAI API and get a response
+function getc(code) {
+    console.log(code)
+    spinner = true
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + String("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")
+        },
+        body: JSON.stringify({
+          'prompt': "You are an very intelligent ai capable of answering any question regarding python code only. If the question specified by the human is not related to python or coding in general, do not answer.Human:" + code + "\nAI: ",
+          'temperature': 0,
+          'max_tokens': 2048,
+          'top_p': 1,
+          'frequency_penalty': 0,
+          'presence_penalty': 0,
+        })
+    };
+
+    // Send the request to the OpenAI API and set the response as the value of the 'answer' variable
+    fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            spinner = false
+            answer = data.choices[0].text
+        }).catch(err => {
+            console.log("Ran out of tokens for today! Try tomorrow!");
+        });
+}
 
 </script>
 
@@ -56,7 +71,7 @@
     </div>
 </form>
 <div>
-    {#if response}
+    {#if answer}
         <div class="accordion my-3" id="accordionExample">
             {#if status}   
                 <div class="accordion-item">
@@ -67,11 +82,15 @@
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <code>{response}</code>
+                        <code>{answer}</code>
                     </div>
                     </div>
                 </div>
             {/if}
           </div>
+        {:else if spinner}
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     {/if}
 </div>

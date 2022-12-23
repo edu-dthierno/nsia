@@ -117,7 +117,7 @@ setTimeout(() => {
 
 <style>
     #main {
-        background-image: url('bg.svg');
+        background-image: url('');
         
     }
     .bg {

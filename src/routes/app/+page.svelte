@@ -41,4 +41,13 @@
         </div>
       </div>
     </div>
+    <div class="col-sm-6 my-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Docstring</h5>
+          <p class="card-text">Notre IA peut vous aider à coder des choses que vous ne savez pas comment implémenter. Obtenez de l'aide et des conseils pour résoudre des problèmes de codage. Utilisez notre IA pour obtenir de l'aide.</p>
+          <button on:click={() => goto('/app/docstring')} class="btn btn-primary">commencez</button>
+        </div>
+      </div>
+    </div>
 </div>
