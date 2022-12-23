@@ -36,7 +36,7 @@ function getc(code) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + String("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")
+          'Authorization': 'Bearer ' + String("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")
         },
         body: JSON.stringify({
           'prompt': "You are an very intelligent ai capable of answering any question regarding python code only. If the question specified by the human is not related to python or coding in general, do not answer.Human:" + code + "\nAI: ",
